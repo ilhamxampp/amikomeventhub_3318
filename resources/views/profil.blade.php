@@ -23,7 +23,7 @@
         Edit Profil
     </button>
 
-    <a href="/" class="block bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 transition">
+    <a href="/kontak" class="block bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 transition">
         Kembali
     </a>
 
