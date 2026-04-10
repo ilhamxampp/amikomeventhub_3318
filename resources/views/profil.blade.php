@@ -1,30 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Halaman Kontak</title>
-<!-- Tailwind CSS CDN -->
+<title>Profil</title>
 <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body class="bg-slate-100 flex items-center justify-center h-screen">
 
-<div class="bg-white p-8 rounded-xl shadow-lg border border-slate-200 text-center max-w-sm w-full">
+<div class="bg-white p-8 rounded-xl shadow-lg border text-center w-full max-w-sm">
 
-    <h1 class="text-2xl font-bold text-slate-800 mb-2">Hubungi Kami</h1>
-    <p class="text-slate-500 mb-6">Email: admin@amikomeventhub.com</p>
+    <img src="https://via.placeholder.com/100" class="mx-auto rounded-full mb-4">
 
-        <a href="/katalog" class="bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition">
-            Katalog
-        </a>
+    <h2 class="text-xl font-bold text-slate-800">John Doe</h2>
+    <p class="text-slate-500 mb-4">john@example.com</p>
 
-        <a href="/bantuan" class="bg-yellow-500 text-white py-2 rounded-lg hover:bg-yellow-600 transition">
-            Bantuan
-        </a>
+    <div class="text-left text-sm text-slate-600 mb-4">
+        <p><strong>Role:</strong> User</p>
+        <p><strong>Bergabung:</strong> 2025</p>
     </div>
 
-    <!-- Tombol Kembali -->
-    <a href="/" class="inline-block bg-indigo-600 text-white font-semibold py-2 px-6 rounded-lg hover:bg-indigo-700 hover:shadow-md transition duration-300">
-        Kembali ke Home
+    <button class="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition mb-4">
+        Edit Profil
+    </button>
+
+    <a href="/" class="block bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 transition">
+        Kembali
     </a>
 
 </div>
