@@ -1,37 +1,38 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html>
+<head>
+<title>Bantuan</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
 
-@section('title', 'Bantuan')
+<body class="bg-slate-100 flex items-center justify-center h-screen">
 
-@section('content')
-<h2 class="mb-4">Pusat Bantuan</h2>
+<div class="bg-white p-6 rounded-xl shadow w-full max-w-md">
 
-<div class="accordion" id="faq">
+    <h2 class="text-xl font-bold mb-4 text-center">Pusat Bantuan</h2>
 
-    <div class="accordion-item">
-        <h2 class="accordion-header">
-            <button class="accordion-button" data-bs-toggle="collapse" data-bs-target="#item1">
-                Cara menggunakan aplikasi?
-            </button>
-        </h2>
-        <div id="item1" class="accordion-collapse collapse show">
-            <div class="accordion-body">
-                Pilih menu di atas untuk mulai menggunakan fitur aplikasi.
-            </div>
+    <div class="space-y-3 text-sm text-slate-700">
+        <div class="p-3 bg-slate-100 rounded">
+            <strong>Cara menggunakan aplikasi?</strong>
+            <p>Pilih menu yang tersedia untuk mulai.</p>
+        </div>
+
+        <div class="p-3 bg-slate-100 rounded">
+            <strong>Bagaimana hubungi admin?</strong>
+            <p>Melalui halaman kontak.</p>
+        </div>
+
+        <div class="p-3 bg-slate-100 rounded">
+            <strong>Lupa password?</strong>
+            <p>Gunakan fitur reset password.</p>
         </div>
     </div>
 
-    <div class="accordion-item">
-        <h2 class="accordion-header">
-            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#item2">
-                Bagaimana cara menghubungi support?
-            </button>
-        </h2>
-        <div id="item2" class="accordion-collapse collapse">
-            <div class="accordion-body">
-                Kamu bisa menghubungi kami melalui halaman kontak.
-            </div>
-        </div>
-    </div>
+    <a href="/" class="block mt-5 text-center bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700">
+        Kembali
+    </a>
 
 </div>
-@endsection
+
+</body>
+</html>
