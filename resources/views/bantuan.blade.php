@@ -28,7 +28,7 @@
         </div>
     </div>
 
-    <a href="/" class="block mt-5 text-center bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700">
+    <a href="/kontak" class="block mt-5 text-center bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700">
         Kembali
     </a>
 
