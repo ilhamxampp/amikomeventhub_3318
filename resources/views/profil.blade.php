@@ -13,12 +13,6 @@
     <h1 class="text-2xl font-bold text-slate-800 mb-2">Hubungi Kami</h1>
     <p class="text-slate-500 mb-6">Email: admin@amikomeventhub.com</p>
 
-    <!-- Tombol Navigasi -->
-    <div class="flex flex-col gap-3 mb-6">
-        <a href="/profil" class="bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition">
-            Profil
-        </a>
-
         <a href="/katalog" class="bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition">
             Katalog
         </a>
