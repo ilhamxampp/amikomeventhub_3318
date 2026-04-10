@@ -36,7 +36,7 @@
 </div>
 
 <div class="text-center mt-6">
-    <a href="/" class="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700">
+    <a href="/kontak" class="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700">
         Kembali
     </a>
 </div>
