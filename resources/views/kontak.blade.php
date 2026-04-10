@@ -29,7 +29,7 @@
     </div>
 
     <!-- Tombol Kembali -->
-    <a href="/kontak" class="inline-block bg-indigo-600 text-white font-semibold py-2 px-6 rounded-lg hover:bg-indigo-700 hover:shadow-md transition duration-300">
+    <a href="/" class="inline-block bg-indigo-600 text-white font-semibold py-2 px-6 rounded-lg hover:bg-indigo-700 hover:shadow-md transition duration-300">
         Kembali ke Home
     </a>
 
