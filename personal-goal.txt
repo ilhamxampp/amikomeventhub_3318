@@ -1,2 +1,3 @@
 Konsisten masuk kuliah tanpa bolos
-. Mendapatkan nilai A di semua makul
+Mendapatkan nilai A di semua makul
+commit
