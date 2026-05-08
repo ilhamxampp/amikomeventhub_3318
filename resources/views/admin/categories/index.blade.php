@@ -12,6 +12,12 @@
     </button>
 </header>
 
+@if (session('success'))
+    <div class="mb-6 p-4 bg-green-50 border border-green-200 rounded-xl text-green-700 font-bold">
+        {{ session('success') }}
+    </div>
+@endif
+
 <!-- Categories Table -->
 <div class="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
     <div class="overflow-x-auto">
@@ -36,115 +42,34 @@
                 </tr>
             </thead>
             <tbody class="divide-y divide-slate-100">
-                <!-- Sample Category 1 -->
+                @forelse($categories as $index => $category)
                 <tr class="hover:bg-slate-50 transition">
-                    <td class="px-6 py-4 text-slate-900 font-medium">1</td>
+                    <td class="px-6 py-4 text-slate-900 font-medium">{{ $index + 1 }}</td>
                     <td class="px-6 py-4">
-                        <span class="px-4 py-2 bg-indigo-50 text-indigo-700 rounded-full font-bold text-sm">Seminar</span>
+                        <span class="px-4 py-2 bg-indigo-50 text-indigo-700 rounded-full font-bold text-sm">{{ $category->name }}</span>
                     </td>
-                    <td class="px-6 py-4 text-slate-600 text-sm">Acara pembelajaran dan diskusi profesional</td>
-                    <td class="px-6 py-4 text-slate-900 font-bold">8</td>
+                    <td class="px-6 py-4 text-slate-600 text-sm">{{ $category->description ?? '-' }}</td>
+                    <td class="px-6 py-4 text-slate-900 font-bold">{{ $category->events_count }}</td>
                     <td class="px-6 py-4">
                         <div class="flex gap-2 justify-center">
-                            <button onclick="openEditModal(1, 'Seminar', 'Acara pembelajaran dan diskusi profesional')"
+                            <button onclick="openEditModal({{ $category->id }}, '{{ $category->name }}', '{{ $category->description }}')"
                                 class="px-4 py-2 bg-blue-50 text-blue-600 rounded-xl font-bold text-sm hover:bg-blue-100 transition">
                                 Edit
                             </button>
-                            <button onclick="openDeleteModal(1, 'Seminar')"
+                            <button onclick="openDeleteModal({{ $category->id }}, '{{ $category->name }}')"
                                 class="px-4 py-2 bg-red-50 text-red-600 rounded-xl font-bold text-sm hover:bg-red-100 transition">
                                 Hapus
                             </button>
                         </div>
                     </td>
                 </tr>
-
-                <!-- Sample Category 2 -->
-                <tr class="hover:bg-slate-50 transition">
-                    <td class="px-6 py-4 text-slate-900 font-medium">2</td>
-                    <td class="px-6 py-4">
-                        <span class="px-4 py-2 bg-purple-50 text-purple-700 rounded-full font-bold text-sm">Konser</span>
-                    </td>
-                    <td class="px-6 py-4 text-slate-600 text-sm">Pertunjukan musik dan hiburan live</td>
-                    <td class="px-6 py-4 text-slate-900 font-bold">12</td>
-                    <td class="px-6 py-4">
-                        <div class="flex gap-2 justify-center">
-                            <button onclick="openEditModal(2, 'Konser', 'Pertunjukan musik dan hiburan live')"
-                                class="px-4 py-2 bg-blue-50 text-blue-600 rounded-xl font-bold text-sm hover:bg-blue-100 transition">
-                                Edit
-                            </button>
-                            <button onclick="openDeleteModal(2, 'Konser')"
-                                class="px-4 py-2 bg-red-50 text-red-600 rounded-xl font-bold text-sm hover:bg-red-100 transition">
-                                Hapus
-                            </button>
-                        </div>
+                @empty
+                <tr>
+                    <td colspan="5" class="px-6 py-8 text-center text-slate-500 font-medium">
+                        Tidak ada kategori. <button onclick="openAddModal()" class="text-indigo-600 font-bold hover:underline">Tambah kategori sekarang</button>
                     </td>
                 </tr>
-
-                <!-- Sample Category 3 -->
-                <tr class="hover:bg-slate-50 transition">
-                    <td class="px-6 py-4 text-slate-900 font-medium">3</td>
-                    <td class="px-6 py-4">
-                        <span class="px-4 py-2 bg-green-50 text-green-700 rounded-full font-bold text-sm">Workshop</span>
-                    </td>
-                    <td class="px-6 py-4 text-slate-600 text-sm">Sesi pelatihan praktis dengan instruktur ahli</td>
-                    <td class="px-6 py-4 text-slate-900 font-bold">5</td>
-                    <td class="px-6 py-4">
-                        <div class="flex gap-2 justify-center">
-                            <button onclick="openEditModal(3, 'Workshop', 'Sesi pelatihan praktis dengan instruktur ahli')"
-                                class="px-4 py-2 bg-blue-50 text-blue-600 rounded-xl font-bold text-sm hover:bg-blue-100 transition">
-                                Edit
-                            </button>
-                            <button onclick="openDeleteModal(3, 'Workshop')"
-                                class="px-4 py-2 bg-red-50 text-red-600 rounded-xl font-bold text-sm hover:bg-red-100 transition">
-                                Hapus
-                            </button>
-                        </div>
-                    </td>
-                </tr>
-
-                <!-- Sample Category 4 -->
-                <tr class="hover:bg-slate-50 transition">
-                    <td class="px-6 py-4 text-slate-900 font-medium">4</td>
-                    <td class="px-6 py-4">
-                        <span class="px-4 py-2 bg-orange-50 text-orange-700 rounded-full font-bold text-sm">Pameran</span>
-                    </td>
-                    <td class="px-6 py-4 text-slate-600 text-sm">Pameran produk, karya seni, dan inovasi</td>
-                    <td class="px-6 py-4 text-slate-900 font-bold">3</td>
-                    <td class="px-6 py-4">
-                        <div class="flex gap-2 justify-center">
-                            <button onclick="openEditModal(4, 'Pameran', 'Pameran produk, karya seni, dan inovasi')"
-                                class="px-4 py-2 bg-blue-50 text-blue-600 rounded-xl font-bold text-sm hover:bg-blue-100 transition">
-                                Edit
-                            </button>
-                            <button onclick="openDeleteModal(4, 'Pameran')"
-                                class="px-4 py-2 bg-red-50 text-red-600 rounded-xl font-bold text-sm hover:bg-red-100 transition">
-                                Hapus
-                            </button>
-                        </div>
-                    </td>
-                </tr>
-
-                <!-- Sample Category 5 -->
-                <tr class="hover:bg-slate-50 transition">
-                    <td class="px-6 py-4 text-slate-900 font-medium">5</td>
-                    <td class="px-6 py-4">
-                        <span class="px-4 py-2 bg-pink-50 text-pink-700 rounded-full font-bold text-sm">Olahraga</span>
-                    </td>
-                    <td class="px-6 py-4 text-slate-600 text-sm">Kompetisi dan acara olahraga</td>
-                    <td class="px-6 py-4 text-slate-900 font-bold">6</td>
-                    <td class="px-6 py-4">
-                        <div class="flex gap-2 justify-center">
-                            <button onclick="openEditModal(5, 'Olahraga', 'Kompetisi dan acara olahraga')"
-                                class="px-4 py-2 bg-blue-50 text-blue-600 rounded-xl font-bold text-sm hover:bg-blue-100 transition">
-                                Edit
-                            </button>
-                            <button onclick="openDeleteModal(5, 'Olahraga')"
-                                class="px-4 py-2 bg-red-50 text-red-600 rounded-xl font-bold text-sm hover:bg-red-100 transition">
-                                Hapus
-                            </button>
-                        </div>
-                    </td>
-                </tr>
+                @endforelse
             </tbody>
         </table>
     </div>
@@ -167,11 +92,14 @@
 
         <!-- Modal Body -->
         <div class="p-8">
-            <form class="space-y-6">
+            <form id="categoryForm" method="POST" action="{{ route('admin.categories.store') }}" class="space-y-6">
+                @csrf
+                @method('POST')
+                
                 <div>
                     <label class="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Nama Kategori
                         *</label>
-                    <input id="categoryName" type="text" placeholder="Contoh: Seminar"
+                    <input id="categoryName" type="text" name="name" placeholder="Contoh: Seminar"
                         class="w-full px-5 py-3 bg-white border-2 border-slate-100 rounded-2xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-600 outline-none transition font-medium"
                         required>
                 </div>
@@ -179,7 +107,7 @@
                 <div>
                     <label class="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Deskripsi
                         Singkat</label>
-                    <textarea id="categoryDesc" rows="3" placeholder="Deskripsi kategori event ini..."
+                    <textarea id="categoryDesc" name="description" rows="3" placeholder="Deskripsi kategori event ini..."
                         class="w-full px-5 py-3 bg-white border-2 border-slate-100 rounded-2xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-600 outline-none transition font-medium"></textarea>
                 </div>
 
@@ -188,7 +116,7 @@
                         class="px-6 py-3 border-2 border-slate-200 text-slate-700 rounded-xl font-bold hover:bg-slate-50 transition">
                         Batal
                     </button>
-                    <button type="button" onclick="saveCategory()"
+                    <button type="submit"
                         class="px-8 py-3 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700 transition shadow-lg shadow-indigo-200">
                         Simpan
                     </button>
@@ -217,16 +145,18 @@
             <p id="deleteItemName" class="text-lg font-bold text-slate-900 mb-6"></p>
             <p class="text-sm text-slate-500 mb-6">Tindakan ini tidak dapat dibatalkan.</p>
 
-            <div class="flex gap-4 justify-center">
-                <button onclick="closeDeleteModal()"
+            <form id="deleteForm" method="POST" class="flex gap-4 justify-center">
+                @csrf
+                @method('DELETE')
+                <button type="button" onclick="closeDeleteModal()"
                     class="px-6 py-3 border-2 border-slate-200 text-slate-700 rounded-xl font-bold hover:bg-slate-50 transition">
                     Batal
                 </button>
-                <button onclick="confirmDelete()"
+                <button type="submit"
                     class="px-6 py-3 bg-red-600 text-white rounded-xl font-bold hover:bg-red-700 transition">
                     Hapus
                 </button>
-            </div>
+            </form>
         </div>
     </div>
 </div>
@@ -257,12 +187,16 @@
 @section('extra-scripts')
 <script>
     let currentEditId = null;
+    const baseUrl = "{{ route('admin.categories.index') }}";
 
     function openAddModal() {
         document.getElementById('modalTitle').textContent = 'Tambah Kategori Baru';
         document.getElementById('categoryName').value = '';
         document.getElementById('categoryDesc').value = '';
         currentEditId = null;
+        document.getElementById('categoryForm').action = baseUrl;
+        document.getElementById('categoryForm').method = 'POST';
+        document.querySelector('#categoryForm input[name="_method"]')?.remove();
         document.getElementById('categoryModal').classList.remove('hidden');
         document.getElementById('categoryModal').classList.add('flex');
     }
@@ -272,6 +206,18 @@
         document.getElementById('categoryName').value = name;
         document.getElementById('categoryDesc').value = desc;
         currentEditId = id;
+        document.getElementById('categoryForm').action = baseUrl + '/' + id;
+        
+        // Remove old method input if exists, then add new one
+        let methodInput = document.querySelector('#categoryForm input[name="_method"]');
+        if (!methodInput) {
+            methodInput = document.createElement('input');
+            methodInput.type = 'hidden';
+            methodInput.name = '_method';
+            document.getElementById('categoryForm').appendChild(methodInput);
+        }
+        methodInput.value = 'PUT';
+        
         document.getElementById('categoryModal').classList.remove('hidden');
         document.getElementById('categoryModal').classList.add('flex');
     }
@@ -281,19 +227,10 @@
         document.getElementById('categoryModal').classList.remove('flex');
     }
 
-    function saveCategory() {
-        const name = document.getElementById('categoryName').value.trim();
-        if (!name) {
-            alert('Nama kategori tidak boleh kosong!');
-            return;
-        }
-        alert(currentEditId ? `Kategori "${name}" berhasil diperbarui!` : `Kategori "${name}" berhasil ditambahkan!`);
-        closeCategoryModal();
-    }
-
     function openDeleteModal(id, name) {
         document.getElementById('deleteItemName').textContent = name;
         currentEditId = id;
+        document.getElementById('deleteForm').action = baseUrl + '/' + id;
         document.getElementById('deleteModal').classList.remove('hidden');
         document.getElementById('deleteModal').classList.add('flex');
     }
@@ -301,12 +238,6 @@
     function closeDeleteModal() {
         document.getElementById('deleteModal').classList.add('hidden');
         document.getElementById('deleteModal').classList.remove('flex');
-    }
-
-    function confirmDelete() {
-        const name = document.getElementById('deleteItemName').textContent;
-        alert(`Kategori "${name}" berhasil dihapus!`);
-        closeDeleteModal();
     }
 </script>
 @endsection

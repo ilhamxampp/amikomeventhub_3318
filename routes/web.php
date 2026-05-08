@@ -7,6 +7,7 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EventController as AdminEventController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\EventController as EventAdminController;
 
 
 
@@ -25,15 +26,16 @@ Route::get('/my-ticket', [EventController::class, 'ticket'])->name('ticket');
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     
     // Dashboard Admin (URL: /admin)
-    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     
     // List Event Admin (URL: /admin/events)
     Route::get('/events', [AdminEventController::class, 'index'])->name('events.index');
     
-    // Kategori Admin (URL: /admin/categories)
-    Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
+    // Kategori Admin - Full Resource Routes
+    Route::resource('categories', CategoryController::class);
     
     // Anda bisa menambahkan rute admin lainnya di sini...
+    Route::resource('events', EventAdminController::class);
 });
 
 
@@ -41,3 +43,8 @@ Route::get('/kontak', function () { return view('contact'); });
 Route::get('/profil', function () { return view('profil'); });
 Route::get('/katalog', function () { return view('katalog'); });
 Route::get('/bantuan', function () { return view('bantuan'); });
+
+Route::prefix('admin')->name('admin.')->group(function () {
+    
+});
+

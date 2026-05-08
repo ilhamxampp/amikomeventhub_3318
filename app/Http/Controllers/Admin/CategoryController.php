@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -12,7 +13,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return view('admin.categories.index');
+        $categories = Category::withCount('events')->latest()->get();
+        return view('admin.categories.index', compact('categories'));
     }
 
     /**
@@ -28,7 +30,12 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        // TODO: Implement database storage logic
+        $data = $request->validate([
+            'name' => 'required|string|max:255|unique:categories',
+            'description' => 'nullable|string',
+        ]);
+
+        Category::create($data);
         return redirect()->route('admin.categories.index')->with('success', 'Kategori berhasil ditambahkan');
     }
 
@@ -37,33 +44,37 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        // TODO: Implement show logic
+        return Category::findOrFail($id);
     }
 
     /**
      * Show the form for editing the specified category.
      */
-    public function edit($id)
+    public function edit(Category $category)
     {
-        // TODO: Implement edit logic
-        return view('admin.categories.edit');
+        return view('admin.categories.edit', compact('category'));
     }
 
     /**
      * Update the specified category in storage.
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Category $category)
     {
-        // TODO: Implement database update logic
+        $data = $request->validate([
+            'name' => 'required|string|max:255|unique:categories,name,' . $category->id,
+            'description' => 'nullable|string',
+        ]);
+
+        $category->update($data);
         return redirect()->route('admin.categories.index')->with('success', 'Kategori berhasil diperbarui');
     }
 
     /**
      * Remove the specified category from storage.
      */
-    public function destroy($id)
+    public function destroy(Category $category)
     {
-        // TODO: Implement database delete logic
+        $category->delete();
         return redirect()->route('admin.categories.index')->with('success', 'Kategori berhasil dihapus');
     }
 }
