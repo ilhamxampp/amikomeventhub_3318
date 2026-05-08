@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Event;
 
 class HomeController extends Controller
 {
     public function index()
     {
-        return view('welcome');
+        $events = Event::with('category')->latest()->get();
+
+        return view('welcome', compact('events'));
     }
 }

@@ -16,11 +16,12 @@ class EventController extends Controller
         return view('admin.events', compact('events'));
     }
 
-    public function create()
-    {
-        $categories = Category::all();
-        return view('admin.events', compact('categories'));
-    }
+public function create()
+{
+    $categories = Category::all();
+
+    return view('admin.events.create', compact('categories'));
+}
 
     public function store(Request $request)
     {
