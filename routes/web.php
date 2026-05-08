@@ -27,8 +27,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     // Dashboard Admin (URL: /admin)
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     
-    // List Event Admin (URL: /admin/events)
-    Route::get('/events', [AdminEventController::class, 'index'])->name('events.index');
+    // CRUD Event Admin
+    Route::resource('events', AdminEventController::class);
     
     // Kategori Admin (URL: /admin/categories)
     Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
