@@ -93,16 +93,3 @@
   </div>
 </div>
 @endsection
-
-function closeDeleteModal() {
-  document.getElementById('deleteModal').classList.add('hidden');
-  document.getElementById('deleteModal').classList.remove('flex');
-}
-
-function confirmDelete() {
-  const name = document.getElementById('deleteItemName').textContent;
-  alert(`Kategori "${name}" berhasil dihapus!`);
-  closeDeleteModal();
-}
-</script>
-@endsection
