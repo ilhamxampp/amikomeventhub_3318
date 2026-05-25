@@ -195,6 +195,26 @@
     </div>
   </section>
 
+  <!-- Partners Section -->
+  <section id="partners" class="max-w-7xl mx-auto px-6 py-20 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-3xl">
+    <div class="mb-12">
+      <h2 class="text-3xl font-extrabold mb-2">Mitra Strategis Kami</h2>
+      <p class="text-slate-500 font-medium">Platform AmikomEventHub dipercaya oleh berbagai perusahaan terkemuka di Indonesia</p>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
+      @forelse($partners as $partner)
+      <div class="bg-white rounded-2xl p-6 flex items-center justify-center h-24 shadow-sm hover:shadow-lg transition-all duration-300 group">
+        <img src="{{ $partner->logo_url }}" alt="{{ $partner->name }}" class="h-16 w-auto object-contain group-hover:scale-110 transition-transform duration-300" title="{{ $partner->name }}">
+      </div>
+      @empty
+      <div class="col-span-full text-center text-slate-500 py-12">
+        <p class="font-medium">Belum ada partner yang ditambahkan</p>
+      </div>
+      @endforelse
+    </div>
+  </section>
+
   <!-- Footer -->
   <footer class="bg-indigo-900 text-indigo-100 py-20 px-6 mt-20">
     <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">

@@ -3,16 +3,28 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
     /**
-     * Display a listing of all categories.
+     * Display a listing of all categories with search functionality.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('admin.categories.index');
+        $query = Category::query();
+
+        // Search functionality
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where('name', 'LIKE', '%' . $search . '%');
+        }
+
+        $categories = $query->withCount('events')->get();
+        $search = $request->search ?? '';
+
+        return view('admin.categories.index', compact('categories', 'search'));
     }
 
     /**
@@ -28,7 +40,12 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        // TODO: Implement database storage logic
+        $validated = $request->validate([
+            'name' => 'required|string|max:255|unique:categories,name',
+        ]);
+
+        Category::create($validated);
+
         return redirect()->route('admin.categories.index')->with('success', 'Kategori berhasil ditambahkan');
     }
 
@@ -37,7 +54,8 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        // TODO: Implement show logic
+        $category = Category::findOrFail($id);
+        return view('admin.categories.show', compact('category'));
     }
 
     /**
@@ -45,8 +63,8 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        // TODO: Implement edit logic
-        return view('admin.categories.edit');
+        $category = Category::findOrFail($id);
+        return view('admin.categories.edit', compact('category'));
     }
 
     /**
@@ -54,7 +72,14 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // TODO: Implement database update logic
+        $category = Category::findOrFail($id);
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255|unique:categories,name,' . $id,
+        ]);
+
+        $category->update($validated);
+
         return redirect()->route('admin.categories.index')->with('success', 'Kategori berhasil diperbarui');
     }
 
@@ -63,7 +88,9 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        // TODO: Implement database delete logic
+        $category = Category::findOrFail($id);
+        $category->delete();
+
         return redirect()->route('admin.categories.index')->with('success', 'Kategori berhasil dihapus');
     }
 }
