@@ -2,49 +2,51 @@
 
 use Illuminate\Support\Facades\Route;
 
+// Import Controllers Utama
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\EventController;
+
+// Import Controllers Admin
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EventController as AdminEventController;
 use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Admin\EventController as EventAdminController;
+use App\Http\Controllers\Admin\PartnerController; // Tambahkan ini agar tidak error
 
-
-
-// Halaman Home (Menggantikan rute welcome bawaan Laravel)
+// ---------------------------------------------------------
+// HALAMAN PUBLIK
+// ---------------------------------------------------------
 Route::get('/', [HomeController::class, 'index'])->name('home');
-
-// Detail Event (Contoh dengan ID statis sesuai gambar)
-Route::get('/event/1', [EventController::class, 'show'])->name('events.show');
-
-// Checkout & Tiket
-Route::get('/checkout', [EventController::class, 'checkout'])->name('checkout');
+Route::get('/event/{id}', [EventController::class, 'show'])->name('events.show');
+Route::get('/checkout/{id}', [EventController::class, 'checkout'])->name('checkout');
+Route::post('/checkout/{id}/process', [EventController::class, 'processCheckout'])->name('checkout.process');
 Route::get('/my-ticket', [EventController::class, 'ticket'])->name('ticket');
 
-
-
+// ---------------------------------------------------------
+// AREA ADMIN (Prefix: admin, Name: admin.)
+// ---------------------------------------------------------
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     
-    // Dashboard Admin (URL: /admin)
+    // Dashboard & Laporan Transaksi
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/transactions', [DashboardController::class, 'transactions'])->name('transactions.index');
     
-    // List Event Admin (URL: /admin/events)
+    // Kelola Event
     Route::get('/events', [AdminEventController::class, 'index'])->name('events.index');
+    Route::resource('events', AdminEventController::class)->except(['index']);
     
-    // Kategori Admin - Full Resource Routes
+    // Kelola Kategori
     Route::resource('categories', CategoryController::class);
     
-    // Anda bisa menambahkan rute admin lainnya di sini...
-    Route::resource('events', EventAdminController::class);
+    // MODUL PARTNER (Tugas UTS Soal 2 & 3)
+    // Diletakkan di sini agar mengikuti prefix 'admin.'
+    Route::resource('partners', PartnerController::class);
+
 });
 
-
+// ---------------------------------------------------------
+// HALAMAN STATIS
+// ---------------------------------------------------------
 Route::get('/kontak', function () { return view('contact'); });
 Route::get('/profil', function () { return view('profil'); });
 Route::get('/katalog', function () { return view('katalog'); });
 Route::get('/bantuan', function () { return view('bantuan'); });
-
-Route::prefix('admin')->name('admin.')->group(function () {
-    
-});
-

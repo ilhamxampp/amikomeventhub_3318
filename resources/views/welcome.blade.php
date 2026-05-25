@@ -108,15 +108,50 @@
                     Rp {{ number_format($event->price, 0, ',', '.') }}
                 </span>
 
-                <a href="#"
+                <a href="{{ route('events.show', $event->id) }}"
                    class="px-5 py-2 bg-indigo-50 text-indigo-600 rounded-xl font-bold hover:bg-indigo-600 hover:text-white transition">
-
                     Lihat Detail
                 </a>
             </div>
         </div>
     </div>
     @endforeach
+        </div>
+    </section>
+
+    <section class="max-w-7xl mx-auto px-6 py-20 border-t border-slate-100">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-extrabold mb-2">Partner & Sponsor</h2>
+            <p class="text-slate-500 font-medium">Platform AmikomEventHub didukung oleh berbagai mitra terpercaya.</p>
+        </div>
+
+        {{-- Menampilkan daftar Partner dengan perulangan (Soal 4) --}}
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 items-center">
+            @foreach($partners as $partner)
+            <div class="group p-6 bg-slate-50 rounded-3xl hover:bg-white hover:shadow-xl transition-all duration-300 flex flex-col items-center">
+                <img src="{{ asset('storage/' . $partner->logo_url) }}" 
+                     alt="{{ $partner->name }}" 
+                     class="h-12 w-auto grayscale group-hover:grayscale-0 transition duration-300">
+                <p class="mt-4 font-bold text-slate-400 group-hover:text-indigo-600 transition">{{ $partner->name }}</p>
+            </div>
+            @endforeach
+        </div>
+    </section>
+
+    <section class="bg-indigo-600 py-20">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <h2 class="text-3xl font-extrabold text-white mb-4">Kategori Platform Kami</h2>
+            <p class="text-indigo-100 mb-12 max-w-2xl mx-auto">
+                AmikomEventHub menyediakan berbagai kategori event untuk mendukung ekosistem kreatif dan edukasi.
+            </p>
+            
+            <div class="flex flex-wrap justify-center gap-4">
+                @foreach($categories as $category)
+                <span class="px-6 py-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl text-white font-bold hover:bg-white hover:text-indigo-600 transition cursor-default">
+                    {{ $category->name }}
+                </span>
+                @endforeach
+            </div>
         </div>
     </section>
 

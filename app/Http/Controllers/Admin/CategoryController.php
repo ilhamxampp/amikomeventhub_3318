@@ -11,9 +11,19 @@ class CategoryController extends Controller
     /**
      * Display a listing of all categories.
      */
-    public function index()
+    public function index(Request $request) // Tambahkan Request $request
     {
-        $categories = Category::withCount('events')->latest()->get();
+        // Fitur Pencarian untuk UTS (Soal No. 3)
+        $search = $request->input('search');
+
+        $categories = Category::withCount('events')
+            // Tambahkan logika pencarian LIKE sesuai instruksi UTS 
+            ->when($search, function ($query) use ($search) {
+                return $query->where('name', 'LIKE', '%' . $search . '%');
+            })
+            ->latest()
+            ->get();
+
         return view('admin.categories.index', compact('categories'));
     }
 
