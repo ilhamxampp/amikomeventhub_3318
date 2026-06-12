@@ -128,8 +128,8 @@
         {{-- Menampilkan daftar Partner dengan perulangan (Soal 4) --}}
         <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 items-center">
             @foreach($partners as $partner)
-            <div class="group p-6 bg-slate-50 rounded-3xl hover:bg-white hover:shadow-xl transition-all duration-300 flex flex-col items-center">
-                <img src="{{ asset('storage/' . $partner->logo_url) }}" 
+            <div class="group p-6 bg-slate-50 rounded-3xl hover:bg-white hover:shadow-xl transition-all duration-300 flex flex-col items-center text-center">
+                <img src="{{ preg_match('/^https?:\/\//', $partner->logo_url) ? $partner->logo_url : asset('storage/' . $partner->logo_url) }}" 
                      alt="{{ $partner->name }}" 
                      class="h-12 w-auto grayscale group-hover:grayscale-0 transition duration-300">
                 <p class="mt-4 font-bold text-slate-400 group-hover:text-indigo-600 transition">{{ $partner->name }}</p>

@@ -42,7 +42,7 @@
                 <tr class="hover:bg-slate-50/50 transition">
                     <td class="px-6 py-4 text-slate-500">{{ $index + 1 }}</td>
                     <td class="px-6 py-4">
-                        <img src="{{ asset('storage/' . $partner->logo_url) }}" class="h-8 w-auto rounded">
+                        <img src="{{ preg_match('/^https?:\/\//', $partner->logo_url) ? $partner->logo_url : asset('storage/' . $partner->logo_url) }}" class="h-8 w-auto rounded">
                     </td>
                     <td class="px-6 py-4 font-medium text-slate-700">{{ $partner->name }}</td>
                     <td class="px-6 py-4">
