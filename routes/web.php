@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EventController as AdminEventController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\PartnerController;
+use App\Http\Controllers\Admin\QrisController;
 
 // Rute fallback bawaan Laravel agar melempar ke form login admin jika unauthenticated
 Route::get('/login', function () {
@@ -24,8 +25,14 @@ Route::get('/login', function () {
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/event/{id}', [EventController::class, 'show'])->name('events.show');
 Route::get('/checkout/{id}', [EventController::class, 'checkout'])->name('checkout');
-Route::post('/checkout/{id}/process', [EventController::class, 'processCheckout'])->name('checkout.process');
-Route::get('/my-ticket', [EventController::class, 'ticket'])->name('ticket');
+Route::post('/checkout/{id}/payment', [EventController::class, 'createPayment'])->name('checkout.payment');
+Route::post('/payment/callback', [EventController::class, 'handlePaymentCallback'])
+    ->withoutMiddleware([\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class])
+    ->name('payment.callback');
+// Offline QRIS payment (custom QR image flow)
+Route::post('/checkout/{id}/offline', [EventController::class, 'createOfflinePayment'])->name('checkout.offline');
+Route::post('/checkout/confirm-offline', [EventController::class, 'confirmOfflinePayment'])->name('checkout.offline.confirm');
+Route::get('/my-ticket/{order_id?}', [EventController::class, 'ticket'])->name('ticket');
 
 // ---------------------------------------------------------
 // AREA ADMIN (Prefix: admin, Name: admin.)
@@ -43,6 +50,12 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         // Dashboard & Laporan Transaksi
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::get('/transactions', [DashboardController::class, 'transactions'])->name('transactions.index');
+        Route::put('/transactions/{transaction}/status', [DashboardController::class, 'updateStatus'])->name('transactions.updateStatus');
+        Route::delete('/transactions/{transaction}', [DashboardController::class, 'destroy'])->name('transactions.destroy');
+
+        // Kelola QRIS
+        Route::get('/qris', [QrisController::class, 'index'])->name('qris.index');
+        Route::post('/qris', [QrisController::class, 'update'])->name('qris.update');
         
         // Kelola Event
         Route::get('/events', [AdminEventController::class, 'index'])->name('events.index');

@@ -10,13 +10,15 @@ class Transaction extends Model
     use HasFactory;
 
     protected $fillable = [
-        'event_id', 
-        'order_id', 
-        'customer_name', 
-        'customer_email', 
-        'customer_phone', 
-        'total_price', 
-        'status'
+        'event_id',
+        'order_id',
+        'customer_name',
+        'customer_email',
+        'customer_phone',
+        'quantity',
+        'total_price',
+        'status',
+        'snap_token',
     ];
 
     /**

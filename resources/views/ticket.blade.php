@@ -8,26 +8,38 @@
             <div class="flex justify-between items-center mb-6">
                 <div>
                     <p class="text-sm uppercase tracking-[0.25em] text-slate-400">Event</p>
-                    <p class="text-xl font-bold">Jazz Night 2024: A Celebration</p>
+                    <p class="text-xl font-bold">{{ $transaction->event->title ?? 'Event tidak ditemukan' }}</p>
                 </div>
-                <span class="px-4 py-2 rounded-full bg-emerald-100 text-emerald-700 font-bold">Paid</span>
+                <span class="px-4 py-2 rounded-full bg-emerald-100 text-emerald-700 font-bold">{{ ucfirst($transaction->status) }}</span>
             </div>
             <div class="grid grid-cols-1 gap-4">
                 <div class="flex justify-between text-slate-600">
                     <span>Tanggal</span>
-                    <span>16 Nov 2024</span>
+                    <span>{{ \Carbon\Carbon::parse($transaction->event->date)->format('d M Y') }}</span>
                 </div>
                 <div class="flex justify-between text-slate-600">
                     <span>Lokasi</span>
-                    <span>The Blue Note Lounge</span>
+                    <span>{{ $transaction->event->location ?? '-' }}</span>
                 </div>
                 <div class="flex justify-between text-slate-600">
                     <span>Jumlah</span>
-                    <span>1 Tiket</span>
+                    <span>{{ $transaction->quantity }} Tiket</span>
                 </div>
                 <div class="flex justify-between text-slate-600">
                     <span>Total Bayar</span>
-                    <span class="font-bold text-indigo-700">Rp 155.000</span>
+                    <span class="font-bold text-indigo-700">Rp {{ number_format($transaction->total_price, 0, ',', '.') }}</span>
+                </div>
+                <div class="flex justify-between text-slate-600">
+                    <span>Nama Pembeli</span>
+                    <span>{{ $transaction->customer_name }}</span>
+                </div>
+                <div class="flex justify-between text-slate-600">
+                    <span>Email</span>
+                    <span>{{ $transaction->customer_email }}</span>
+                </div>
+                <div class="flex justify-between text-slate-600">
+                    <span>Order ID</span>
+                    <span>{{ $transaction->order_id }}</span>
                 </div>
             </div>
         </div>
