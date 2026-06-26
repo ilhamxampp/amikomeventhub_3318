@@ -33,6 +33,13 @@ Route::post('/payment/callback', [EventController::class, 'handlePaymentCallback
 Route::post('/checkout/{id}/offline', [EventController::class, 'createOfflinePayment'])->name('checkout.offline');
 Route::post('/checkout/confirm-offline', [EventController::class, 'confirmOfflinePayment'])->name('checkout.offline.confirm');
 Route::get('/my-ticket/{order_id?}', [EventController::class, 'ticket'])->name('ticket');
+Route::get('/payment/{order_id}', 
+    [\App\Http\Controllers\CheckoutController::class, 'payment'])
+    ->name('checkout.payment');
+
+Route::get('/success/{order_id}', 
+    [\App\Http\Controllers\CheckoutController::class, 'success'])
+    ->name('checkout.success');
 
 // ---------------------------------------------------------
 // AREA ADMIN (Prefix: admin, Name: admin.)
