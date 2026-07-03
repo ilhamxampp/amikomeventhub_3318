@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\PartnerController;
 use App\Http\Controllers\Admin\QrisController;
 
+
 // Rute fallback bawaan Laravel agar melempar ke form login admin jika unauthenticated
 Route::get('/login', function () {
     return redirect()->route('admin.login');
@@ -26,9 +27,10 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/event/{id}', [EventController::class, 'show'])->name('events.show');
 Route::get('/checkout/{id}', [EventController::class, 'checkout'])->name('checkout');
 Route::post('/checkout/{id}/payment', [EventController::class, 'createPayment'])->name('checkout.payment');
-Route::post('/payment/callback', [EventController::class, 'handlePaymentCallback'])
-    ->withoutMiddleware([\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class])
-    ->name('payment.callback');
+
+// PERBAIKAN: Rute callback dibuat bersih tanpa withoutMiddleware agar tidak memicu error 404
+Route::post('/payment/callback', [EventController::class, 'handlePaymentCallback'])->name('payment.callback');
+
 // Offline QRIS payment (custom QR image flow)
 Route::post('/checkout/{id}/offline', [EventController::class, 'createOfflinePayment'])->name('checkout.offline');
 Route::post('/checkout/confirm-offline', [EventController::class, 'confirmOfflinePayment'])->name('checkout.offline.confirm');
@@ -41,12 +43,11 @@ Route::get('/success/{order_id}',
     [\App\Http\Controllers\CheckoutController::class, 'success'])
     ->name('checkout.success');
 
-// ---------------------------------------------------------
-// AREA ADMIN (Prefix: admin, Name: admin.)
-// ---------------------------------------------------------
+
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     
     // 1. Rute Autentikasi (Bisa diakses tanpa login)
+    // Urutan diperbaiki: login POST dipindah ke atas resouce/middleware agar tidak bentrok
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
     Route::post('/login', [AuthController::class, 'login'])->name('login.post');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -77,10 +78,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     });
 });
 
-// ---------------------------------------------------------
-// HALAMAN STATIS
-// ---------------------------------------------------------
+
 Route::get('/kontak', function () { return view('contact'); });
 Route::get('/profil', function () { return view('profil'); });
 Route::get('/katalog', function () { return view('katalog'); });
 Route::get('/bantuan', function () { return view('bantuan'); });
+
+//callback midtrans
+Route::post('/midtrans/callback', [\App\Http\Controllers\MidtransWebhookController::class, 'handle']);

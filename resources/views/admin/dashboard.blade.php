@@ -1,5 +1,8 @@
 @extends('layouts.admin')
 
+@section('title', 'Admin Dashboard')
+@section('page_title', 'Dashboard Ringkasan')
+
 @section('content')
 <header class="flex justify-between items-center mb-10">
     <div>
@@ -35,7 +38,7 @@
             </svg>
         </div>
         <p class="text-slate-400 text-sm font-bold uppercase mb-1">Tiket Terjual</p>
-        <h3 class="text-2xl font-black text-slate-800">{{ $ticketsSold }}</h3>
+        <h3 class="text-2xl font-black text-slate-800">{{ number_format($ticketsSold, 0, ',', '.') }}</h3>
     </div>
 
     <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
@@ -45,7 +48,7 @@
             </svg>
         </div>
         <p class="text-slate-400 text-sm font-bold uppercase mb-1">Event Aktif</p>
-        <h3 class="text-2xl font-black text-slate-800">{{ $totalEvents }} Event</h3>
+        <h3 class="text-2xl font-black text-slate-800">{{ $activeEvents }} Event</h3>
     </div>
 
     <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
@@ -68,27 +71,32 @@
         <table class="w-full text-left border-collapse">
             <thead class="bg-slate-50 text-slate-400 uppercase text-[10px] font-black tracking-widest">
                 <tr>
-                    <th class="px-8 py-4">Pembeli</th>
-                    <th class="px-8 py-4">Event</th>
-                    <th class="px-8 py-4">Status</th>
-                    <th class="px-8 py-4">Total</th>
+                    <th class="px-8 py-4 w-1/4">Tgl Transaksi</th>
+                    <th class="px-8 py-4 w-1/4">Pembeli</th>
+                    <th class="px-8 py-4 w-1/4">Event</th>
+                    <th class="px-8 py-4 w-[10%]">Status</th>
+                    <th class="px-8 py-4 text-right">Total</th>
                 </tr>
             </thead>
             <tbody class="divide-y border-t">
                 @forelse($recentTransactions as $trx)
                 <tr class="hover:bg-slate-50 transition">
+                    <td class="px-8 py-6 text-sm text-slate-600 max-w-xs break-all">
+                        {{ $trx->created_at->format('d M y - H:i') }}<br>
+                        <span class="text-xs text-slate-400">{{ $trx->order_id }}</span>
+                    </td>
                     <td class="px-8 py-6">
-                        <p class="font-bold uppercase tracking-wide text-sm text-slate-700">
+                        <p class="font-bold uppercase tracking-wide text-sm text-slate-700 truncate max-w-[150px]">
                             {{ $trx->name ?? $trx->customer_name ?? 'Pembeli' }}
                         </p>
-                        <p class="text-xs text-slate-400">
+                        <p class="text-xs text-slate-400 truncate max-w-[150px]">
                             {{ $trx->email ?? $trx->customer_email ?? '-' }}
                         </p>
                     </td>
-                    <td class="px-8 py-6 font-medium text-slate-600">
+                    <td class="px-8 py-6 font-medium text-slate-600 max-w-xs truncate">
                         {{ $trx->event->title ?? 'Event Tidak Ditemukan' }}
                     </td>
-                    <td class="px-8 py-6">
+                    <td class="px-8 py-6 whitespace-nowrap">
                         @if(strtolower($trx->status) == 'success' || strtolower($trx->status) == 'settlement')
                             <span class="px-3 py-1 bg-green-100 text-green-700 rounded-lg text-xs font-bold uppercase">Success</span>
                         @elseif(strtolower($trx->status) == 'pending')
@@ -97,13 +105,13 @@
                             <span class="px-3 py-1 bg-red-100 text-red-700 rounded-lg text-xs font-bold uppercase">{{ $trx->status }}</span>
                         @endif
                     </td>
-                    <td class="px-8 py-6 font-black text-indigo-600">
+                    <td class="px-8 py-6 font-black text-indigo-600 whitespace-nowrap text-right">
                         Rp {{ number_format($trx->total_price, 0, ',', '.') }}
                     </td>
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="4" class="px-8 py-6 text-center text-slate-500 font-medium">Belum ada transaksi resmi.</td>
+                    <td colspan="5" class="px-8 py-10 text-center text-slate-500 font-medium">Belum ada transaksi resmi.</td>
                 </tr>
                 @endforelse
             </tbody>

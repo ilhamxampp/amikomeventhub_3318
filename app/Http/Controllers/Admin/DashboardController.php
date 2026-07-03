@@ -14,13 +14,13 @@ class DashboardController extends Controller
         // 1. Hitung Total Pendapatan (Status success atau settlement)
         $totalRevenue = Transaction::whereIn('status', ['success', 'settlement'])->sum('total_price');
 
-        // 2. Hitung Tiket Terjual
-        $ticketsSold = Transaction::whereIn('status', ['success', 'settlement'])->count();
+        // 2. PERBAIKAN: Hitung akumulasi kuantitas tiket yang terjual menggunakan sum() agar akurat
+        $ticketsSold = Transaction::whereIn('status', ['success', 'settlement'])->sum('quantity');
 
-        // 3. Hitung Total Event Aktif
-        $totalEvents = Event::count();
+        // 3. SINKRONISASI: Mengubah nama variabel dari $totalEvents menjadi $activeEvents agar sesuai dengan view blade
+        $activeEvents = Event::count();
 
-        // 4. Hitung Pesanan Pending (INI YANG TADI HILANG)
+        // 4. Hitung Pesanan Pending
         $pendingOrders = Transaction::where('status', 'pending')->count();
 
         // 5. Ambil 5 Transaksi Terakhir beserta relasi event
@@ -29,12 +29,12 @@ class DashboardController extends Controller
             ->take(5)
             ->get();
 
-        // Kirim SEMUA 5 variabel ke view
+        // Kirim semua variabel yang sudah sinkron ke view
         return view('admin.dashboard', compact(
             'totalRevenue', 
             'ticketsSold', 
-            'totalEvents', 
-            'pendingOrders', // Pastikan ini tertulis
+            'activeEvents', // Sudah disamakan namanya
+            'pendingOrders', 
             'recentTransactions'
         ));
     }
