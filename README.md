@@ -8,6 +8,11 @@ kalau mau masuk ke admin pakai /admin/dashboard
 
 [amikomeventhub-3294.gt.tc](https://amikomeventhub-3294.gt.tc/)
 
+Tugas https://ungu.in/db-gemini
+#link
+https://github.com/faishal-creator/newamikomeventhub3294.git
+
+
 
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
