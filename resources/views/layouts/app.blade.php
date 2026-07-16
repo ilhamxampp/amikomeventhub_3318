@@ -32,15 +32,39 @@
             <span class="text-xl font-bold tracking-tight">AmikomEventHub</span>
         </div>
         <div class="hidden md:flex gap-8 font-medium">
-            <a href="#" class="text-indigo-600">Jelajahi</a>
-            <a href="#" class="hover:text-indigo-600 transition">Kategori</a>
-            <a href="#" class="hover:text-indigo-600 transition">Tentang Kami</a>
+            <a href="{{ route('home') }}" class="text-indigo-600">Jelajahi</a>
+            <a href="{{ route('kategori') }}" class="hover:text-indigo-600 transition">Kategori</a>
+            <a href="{{ route('about') }}" class="hover:text-indigo-600 transition">Tentang Kami</a>
+            @php
+                $sessionCartCount = collect(session('cart', []))->sum('quantity');
+                $dbCartCount = 0;
+                if (auth()->check()) {
+                    try {
+                        $dbCartCount = \App\Models\CartItem::where('user_id', auth()->id())->sum('quantity');
+                    } catch (Exception $e) {
+                        $dbCartCount = 0;
+                    }
+                }
+                $cartCount = max($sessionCartCount, $dbCartCount);
+            @endphp
+            <a href="{{ route('cart.index') }}" class="hover:text-indigo-600 transition">Keranjang ({{ $cartCount }})</a>
+            <a href="{{ route('ticket') }}" class="hover:text-indigo-600 transition">Tiket Saya</a>
+            @auth
+                <a href="{{ route('user.dashboard') }}" class="hover:text-indigo-600 transition">Dashboard Saya</a>
+            @endauth
         </div>
-        <!-- <div class="flex gap-3">
-            <button class="px-5 py-2.5 rounded-xl font-semibold hover:bg-slate-200 transition">Login</button>
-            <button
-                class="px-5 py-2.5 bg-indigo-600 text-white rounded-xl font-semibold shadow-lg shadow-indigo-200 hover:bg-indigo-700 transition">Daftar</button>
-        </div> -->
+        <div class="hidden md:flex items-center gap-3">
+            @auth
+                <span class="text-sm font-medium text-slate-700">Halo, {{ auth()->user()->name }}</span>
+                <a href="{{ route('user.dashboard') }}" class="px-4 py-2 rounded-xl border border-slate-200 text-slate-700 font-semibold hover:bg-slate-100 transition">Dashboard</a>
+                <form action="{{ route('user.logout') }}" method="POST" class="inline">
+                    @csrf
+                    <button type="submit" class="px-4 py-2 rounded-xl bg-slate-900 text-white font-semibold hover:bg-slate-800 transition">Logout</button>
+                </form>
+            @else
+                <a href="{{ route('user.login') }}" class="px-4 py-2 rounded-xl bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition">Login</a>
+            @endauth
+        </div>
     </nav>
 
     @yield('content')

@@ -22,6 +22,16 @@
 
         <!-- Right: Details -->
         <div class="lg:col-span-2 space-y-12">
+            @if(session('success'))
+                <div class="rounded-3xl border border-emerald-200 bg-emerald-50 p-4 text-emerald-700 mb-6">
+                    {{ session('success') }}
+                </div>
+            @endif
+            @if(session('error'))
+                <div class="rounded-3xl border border-rose-200 bg-rose-50 p-4 text-rose-700 mb-6">
+                    {{ session('error') }}
+                </div>
+            @endif
             <div class="space-y-4">
                 <span class="px-4 py-1.5 bg-indigo-100 text-indigo-700 rounded-full text-sm font-bold uppercase tracking-wider">
                     {{ $event->category->name }}
@@ -63,15 +73,24 @@
                         <p class="text-indigo-200 font-bold uppercase tracking-widest text-sm mb-2">Harga Tiket</p>
                         <h2 class="text-5xl font-black">Rp {{ number_format($event->price, 0, ',', '.') }} <span class="text-lg font-medium text-indigo-200">/
                                 orang</span></h2>
-                        <p class="mt-4 text-indigo-100 flex items-center gap-2">
+                        <p class="mt-4 text-slate-100 flex items-center gap-2">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
-                            Sisa stok: <span class="font-bold underline">{{ $event->stock }} Tiket lagi!</span>
+                            Sisa stok: <span class="font-bold text-black underline bg-white/20 px-2 py-1 rounded-xl">{{ $event->stock }} Tiket lagi!</span>
                         </p>
                     </div>
-                    <div>
+                    <div class="grid gap-4 sm:grid-cols-[1fr_auto] items-center">
+                        <form action="{{ route('cart.add', $event->id) }}" method="POST" class="flex items-center gap-3">
+                            @csrf
+                            <input type="number" name="quantity" min="1" max="{{ $event->stock }}" value="1"
+                                class="w-24 rounded-2xl border border-slate-200 px-4 py-3 text-center text-black outline-none focus:border-indigo-600" required>
+                            <button type="submit"
+                                class="rounded-2xl bg-white px-5 py-4 text-indigo-600 font-black hover:bg-indigo-50 transition shadow-xl">
+                                Tambah Keranjang
+                            </button>
+                        </form>
                         <a href="{{ route('checkout', $event->id) }}"
                             class="inline-block px-10 py-5 bg-white text-indigo-600 rounded-2xl font-black text-xl hover:scale-105 transition-transform shadow-xl">
                             Pesan Sekarang

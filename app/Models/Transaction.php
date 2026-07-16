@@ -19,6 +19,11 @@ class Transaction extends Model
         'total_price',
         'status',
         'snap_token',
+        'items',
+    ];
+
+    protected $casts = [
+        'items' => 'array',
     ];
 
     /**

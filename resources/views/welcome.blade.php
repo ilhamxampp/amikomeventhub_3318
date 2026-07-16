@@ -147,9 +147,9 @@
             
             <div class="flex flex-wrap justify-center gap-4">
                 @foreach($categories as $category)
-                <span class="px-6 py-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl text-white font-bold hover:bg-white hover:text-indigo-600 transition cursor-default">
+                <a href="{{ route('category.show', $category->id) }}" class="px-6 py-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl text-white font-bold hover:bg-white hover:text-indigo-600 transition {{ isset($categoryId) && $categoryId == $category->id ? 'bg-white text-indigo-600' : '' }}">
                     {{ $category->name }}
-                </span>
+                </a>
                 @endforeach
             </div>
         </div>
