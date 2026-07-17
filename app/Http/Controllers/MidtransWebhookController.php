@@ -73,7 +73,15 @@ class MidtransWebhookController extends Controller
 
         return response()->json(['message' => 'OK']);
     }
+    
+// public function handle(Request $request)
+// {
+//     \Log::info('CALLBACK MASUK');
 
+//     return response()->json([
+//         'success' => true
+//     ], 200);
+// }
     /**
      * Fungsi helper untuk memproses pengurangan stok jika sukses lunas
      */
@@ -82,5 +90,5 @@ class MidtransWebhookController extends Controller
         if ($transaction->event) {
             $transaction->event->decrement('stock', $transaction->quantity);
         }
-    }
+        }
 }

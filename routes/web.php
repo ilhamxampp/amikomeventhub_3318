@@ -18,6 +18,12 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\PartnerController;
 use App\Http\Controllers\Admin\QrisController;
 
+Route::post('/test-callback', function () {
+    return response()->json([
+        'status' => 'ok'
+    ], 200);
+});
+
 
 // Rute fallback bawaan Laravel agar melempar ke form login admin jika unauthenticated
 Route::get('/login', function () {
